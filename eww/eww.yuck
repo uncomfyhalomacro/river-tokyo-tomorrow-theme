@@ -1,0 +1,224 @@
+(defpoll time :interval "1s" `date "+%H:%M:%S"`)
+(defpoll bat-info :interval "10s" `cat /sys/class/power_supply/BAT1/capacity`)
+(defpoll bat-charging :interval "1s" `cat /sys/class/power_supply/BAT1/status`)
+(defpoll day :interval "3600s" "date +%d")
+(defpoll month :interval "3600s" "date +%b")
+(defpoll current-brightness :interval "1s" "light -G")
+(defpoll spotify-status :interval "1s" `./scripts/get_media.sh`)
+(defpoll vol-info :interval "1s" `pamixer --get-volume`)
+(defpoll network :interval "1s" "./scripts/get_network.sh")
+(defpoll ping :interval "1s" "./scripts/get_ping.sh")
+(deflisten title `while true; do ristate -w | jq '.title' -r --unbuffered; sleep 1s; done`)
+(deflisten tags `while true; do ristate -t | jq '.tags[][\"ChimeiInnoluxCorporation\"][]' -r --unbuffered; sleep 1s; done`)
+(defwidget tag-indicator[]
+	(box 
+		:orientation "h"
+		:halign "center"
+		:class "tag-indicator-box"
+	(eventbox
+		:onscroll "./scripts/river-scroll.sh {} ${tags}"
+	(box
+		:space-evenly "true"
+		:spacing 15
+	(button
+		:onclick "riverctl set-focused-tags 1"
+		:class {tags == "1" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "1" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 2"
+		:class {tags == "2" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "2" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 4"
+		:class {tags == "3" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "3" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 8"
+		:class {tags == "4" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "4" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 16"
+		:class {tags == "5" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "5" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 32"
+		:class {tags == "6" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "6" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 64"
+		:class {tags == "7" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "7" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 128"
+		:class {tags == "8" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "8" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 256"
+		:class {tags == "9" ? "tag-active" : "tag-inactive"}
+	(label :text {tags != "9" ? "" : ""}))
+	(button
+		:onclick "riverctl set-focused-tags 512"
+		:class {tags == "10" ? "tag-active" : "tag-inactive"}
+	(label :text "ﴬ"))
+	(button
+		:onclick "riverctl set-focused-tags 1024"
+		:class {tags == "11" ? "tag-active" : "tag-inactive"}
+	(label :text ""))))))
+
+(defwidget center[]
+	(box :orientation "h"
+		:halign "center"
+		(tag-indicator)))
+
+(defwidget date[]
+	(box
+		:orientation "h"
+		:class "daily-date"
+		:halign "end"
+		:space-evenly "false"
+		:spacing 5
+  	(box
+    	:orientation "h"
+    	month
+		day)
+	time))
+
+(defwidget brightness[]
+  (box
+    :class "brightness"
+    :space-evenly true
+	:halign "center"
+	(metric-brightness :label  "☀︁"
+            :value current-brightness
+            :onchange "light -S {}")))
+
+(defwidget metric-brightness [label value onchange]
+  (box :orientation "h"
+       :class "metric-brightness"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+(defwidget volume[]
+	(box
+		:halign "center"
+		:class "volume-box"
+	(metric-volume :label " "
+		:value vol-info
+		:onchange "pamixer --set-volume {}")))
+
+(defwidget metric-volume [label value onchange]
+  (box :orientation "h"
+       :class "metric-volume"
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+(defwidget bat[]
+	(box
+		:halign "end"
+		:class "bat-box"
+	(metric-bat :label "🔋"
+		:value bat-info
+		:onchange "")))
+
+(defwidget metric-bat [label value onchange]
+  (box :orientation "h"
+       :class {bat-charging != "Charging" ? "metric-bat" : "metric-bat-charging"}
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+(defwidget network-info[]
+	(box
+		:class "network-text"
+		:halign "start"
+		(metric-network :label "${network} "
+            :value "${ping / 10}"
+            :onchange "")))
+
+(defwidget metric-network [label value onchange]
+  (box :orientation "h"
+       :class {ping < 360 ? "metric-network" : "metric-network-slow"}
+       :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+           :max 60
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+(defwidget side[]
+	(box
+		:halign "end"
+		:space-evenly false
+		:class "side-box"
+		:spacing 125
+    (box
+        :class "metric-box"
+        :space-evenly true
+        :halign "center"
+    (network-info)
+	(volume)
+	(brightness)
+	(bat))
+	(date)))
+
+
+(defwidget spotify[]
+	(box
+		:halign "start"
+		:space-evenly false
+		:spacing 10
+	(label :text "" :class "spotify-logo")
+	(eventbox
+		:onscroll "./scripts/spotify-next-previous.sh {}" 
+	(button
+		:onclick "./scripts/spotify-open.sh && playerctl -p spotify play-pause" :class "spotify-button"
+	(label :limit-width 50 :text {spotify-status ?: ""} :class {spotify-status != "" ? "spotify-text" : "spotify-invi"})))))
+
+(defwidget curwindow[]
+	(box
+		:class "current-window"
+		:halign "end"
+		:space-evenly "false"
+	(label :limit-width 50 :text {title ?: " "})))
+
+(defwidget start[]
+	(box
+	(box
+		:halign "start" :orientation "h" :space-evenly false
+		:spacing 5
+		:class "start-box"
+		(spotify)
+		(curwindow))))
+
+(defwidget river-bar[]
+	(centerbox :orientation "h"
+		(start)
+		(center)
+		(side)))
+
+(defwindow river-bar
+	:monitor 0
+	:exclusive "true"
+	:focusable "false"
+	:stacking "bottom"
+	:geometry (geometry :x "0%"
+				  :y "0"
+				  :width "100%"
+				  :height "15px"
+				  :anchor "bottom center")
+	(river-bar))

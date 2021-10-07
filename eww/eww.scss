@@ -1,0 +1,198 @@
+* {
+    all: unset;
+}
+
+.river-bar {
+    font-family: "FantasqueSansMono Nerd Font";
+    //background: rgba(249,213,213, 0.6);
+}
+
+
+.tag-inactive {
+    font-size: 18px;
+    margin-right: 10px;
+    color: #7aa2f7;
+}
+
+.tag-active{
+    font-size: 12px;
+    margin-right: 10px;
+    color: #bb0af7;
+}
+
+.tag-indicator-box {
+	background: #24283b;
+	padding: 2px 10px;
+	border-radius: 6px;
+	border: 2px solid #2185D0;
+}
+
+.start-box {
+	background: #24283b;
+	padding: 0px 0px 0px 8px;
+	border-radius: 8px;
+    border: 2px solid #bb9aff;
+}
+
+.current-window {
+	all: unset;
+    //margin-right: 10px;
+	font-size: 12px;
+	padding: 2px 10px;
+	//background: #303030;
+	color: #e295ea;
+	border-left: 2px solid #bb9aff;
+	//border: 1px solid #D2C26A;
+	//border-radius: 8px;
+}
+
+.metric-box {
+	all: unset;
+	background: #24283b;
+	padding: 2px 10px;
+	border-radius: 6px;
+	border: 2px solid #9770ea;
+}
+
+.daily-date {
+    color: #a9b1d6;
+	padding: 5px;
+	font-size: 12px;
+	background: #1d202f;
+	border-radius: 10px;
+	border: 2px solid #7dcfff;
+}
+
+.zypper-box {
+	color: #81c13b;
+	font-size: 12px;
+}
+.spotify-logo {
+	color: #9ece6a;
+	border-radius: 10px;
+    font-size: 18px;
+}
+.spotify-text {
+	color: #9ece6a;
+	font-size: 12px;
+	background: #24283b;
+	padding-right: 5px;
+	//padding: 0px 5px 0px 5px;
+	//border-radius: 6px;
+	//border: 3px solid #9ece6a;
+}
+
+.spotify-invi {
+	background: #202020;
+}
+.volume-box {
+	color: #acce31;
+	padding: 0px;
+	font-size: 12px;
+}
+.network-text {
+	color:  #708ff4;
+	font-size: 12px;
+}
+
+.brightness {
+	color: #e8de5c;
+	font-size: 12px;
+}
+
+.metric-bat scale trough highlight {
+  all: unset;
+  background-color: #edece1;
+  color: #000000;
+  border-radius: 10px;
+}
+.metric-bat scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 2px;
+  min-width: 70px;
+}
+.metric-bat-charging scale trough highlight {
+  all: unset;
+  background-color: #6ee07f;
+  color: #000000;
+  border-radius: 10px;
+}
+.metric-bat-charging scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 2px;
+  min-width: 70px;
+}
+.metric-brightness scale trough highlight {
+  all: unset;
+  background-color: #edece1;
+  color: #000000;
+  border-radius: 10px;
+}
+.metric-brightness scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 2px;
+  min-width: 70px;
+}
+
+.metric-network scale trough highlight {
+  all: unset;
+  background-color: #edece1;
+  color: #000000;
+  border-radius: 10px;
+}
+.metric-network scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 2px;
+  min-width: 70px;
+}
+
+.metric-network-slow scale trough highlight {
+  all: unset;
+  background-color: #ff7654;
+  color: #000000;
+  border-radius: 10px;
+}
+.metric-network-slow scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 2px;
+  min-width: 70px;
+}
+.metric-volume scale trough highlight {
+  all: unset;
+  background-color: #edece1;
+  color: #000000;
+  border-radius: 10px;
+}
+.metric-volume scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 2px;
+  min-width: 70px;
+}
+
+.ram {
+ 	color: #e2a936;
+}
+
+.storage {
+	color: #d55ce8;
+}
+
+.battery {
+	color: #53c12e;
+}
+
+.cpu {
+	color: #ba9377;
+}
